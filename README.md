@@ -1,4 +1,5 @@
 # Quantify - A Modern Trading & Investment Platform 📈
+# Currently Under Development
 
 Quantify is a full-featured, data-driven trading and investment platform built with a modern, enterprise-grade technology stack...
 
