@@ -64,3 +64,6 @@ application-prod.properties
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Keep the main application.properties file, but ignore environment-specific ones
+application.properties
