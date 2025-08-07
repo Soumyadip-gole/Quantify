@@ -8,6 +8,7 @@ import java.util.List;
 public class watchlist {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "watchlist_id")
     private String watchlistId;
 

@@ -9,11 +9,12 @@ import java.util.List;
 public class balance {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "balance_id")
     private String balanceId;
 
     @Column(name="balance")
-    private int balance;
+    private double balance;
 
     @OneToOne(mappedBy = "balance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private user user;
@@ -28,10 +29,10 @@ public class balance {
         this.balanceId = balanceId;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

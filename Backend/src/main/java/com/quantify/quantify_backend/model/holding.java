@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class holding {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="holding_id")
     private String holdingId;
 

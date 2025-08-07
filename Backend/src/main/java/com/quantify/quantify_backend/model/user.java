@@ -5,11 +5,15 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="user")
+@Table(name="usertable")
 public class user {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
     private String userId;
+
+    @Column(name="google_id", unique = true)
+    private String googleId;
 
     @Column(name = "username")
     private String username;
@@ -86,10 +90,19 @@ public class user {
         this.watchlists = watchlists;
     }
 
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
     @Override
     public String toString() {
         return "user{" +
                 "userId='" + userId + '\'' +
+                ", googleId='" + googleId + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +

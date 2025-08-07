@@ -12,11 +12,15 @@ public class QuantifyBackendApplication {
 		SpringApplication.run(QuantifyBackendApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner cmd(String [] args) {
-		return (String[] args1) -> {
-			// This is where you can add any startup logic if needed
-			System.out.println("Quantify Backend Application has started successfully!");
-		};
-	}
+
+
+//	@Bean
+
+//	@Bean
+//	public CommandLineRunner cmd(String [] args) {
+//		return (String[] args1) -> {
+//			// This is where you can add any startup logic if needed
+//			System.out.println("Quantify Backend Application has started successfully!");
+//		};
+//	}
 }

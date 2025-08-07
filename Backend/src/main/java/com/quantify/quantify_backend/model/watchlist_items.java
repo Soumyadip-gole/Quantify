@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 public class watchlist_items {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="item_id")
     private String itemId;
 

@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class transaction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="transaction_id")
     private String transactionId;
 
