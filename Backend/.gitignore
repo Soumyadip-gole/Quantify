@@ -1,6 +1,6 @@
 HELP.md
 target/
-.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -32,8 +32,35 @@ build/
 ### VS Code ###
 .vscode/
 
+### macOS ###
+.DS_Store
+
+### Windows ###
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
 # Log files
 *.log
 
-# Secrets and configuration files - DO NOT COMMIT
-application.properties
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment-specific properties (keep application.properties but ignore environment-specific ones)
+application-local.properties
+application-dev.properties
+application-prod.properties
+
+# Secrets and sensitive configuration
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
