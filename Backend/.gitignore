@@ -32,6 +32,10 @@ build/
 ### VS Code ###
 .vscode/
 
+#IntelliJ IDEA specific files
+.idea/
+*.iml
+
 # Log files
 *.log
 
