@@ -17,24 +17,10 @@ public class home {
 
     @GetMapping("/")
     public String home(@AuthenticationPrincipal OAuth2User user) {
-        if (user != null) {
-            String googleId = user.getAttribute("sub");
-            user existUser = userRepo.findByGoogleId(googleId);
-            System.out.println(user);
-            if (existUser == null) {
-                user newUser = new user();
-                String email = user.getAttribute("email");
-                String name = user.getAttribute("name");
-                newUser.setGoogleId(googleId);
-                newUser.setEmail(email);
-                newUser.setUsername(name);
-                newUser.setPassword("");
-                userRepo.save(newUser);
-            }
-
+        if (user != null)
             return "Welcome back, " + user.getAttribute("name") + "! You are logged in. <a href=\"/logout\">Logout</a>";
-        }
-        return "<a href=\"/oauth2/authorization/google\">Login with Google</a>";
+
+        return "Welcome to Quantify! <a href=\"/google-login\">Login with Google</a>";
     }
 
 }

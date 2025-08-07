@@ -14,11 +14,11 @@ public class security {
     public SecurityFilterChain sec(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login").permitAll()
+                        .requestMatchers("/", "/google-login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth -> {
-                    oauth.defaultSuccessUrl("/", true);
+                    oauth.defaultSuccessUrl("/google-login-callback", true);
                 })
                 .logout(l -> l
                         .logoutSuccessUrl("/")
