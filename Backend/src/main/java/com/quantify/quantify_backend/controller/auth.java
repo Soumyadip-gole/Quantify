@@ -29,7 +29,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-public class auth { // Class names should be PascalCase
+public class auth {
 
     @Autowired
     private user_repo userRepository;
@@ -54,9 +54,8 @@ public class auth { // Class names should be PascalCase
         newUser.setUsername(username);
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password));
-        newUser.setGoogleId(null); // Local registration, no Google ID
+        newUser.setGoogleId(null);
 
-        // Create default balance for new user
         balance defaultBalance = new balance(0); // Start with 0 balance
         defaultBalance.setUser(newUser);
         newUser.setBalance(defaultBalance);
@@ -76,30 +75,19 @@ public class auth { // Class names should be PascalCase
         }
 
         try {
-            // Authenticate the user
+
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
             );
-
-            // Set authentication in security context
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // Explicitly create/get session and store security context
             HttpSession session = request.getSession(true); // Create session if it doesn't exist
-
-            // IMPORTANT: Store the security context in the session AFTER setting the authentication
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-
-            // Force session to save immediately
             session.setAttribute("AUTHENTICATED_USER", email);
 
             // Check if JSESSIONID cookie is being set
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
-                System.out.println("Existing cookies:");
-                for (Cookie cookie : cookies) {
-                    System.out.println("  " + cookie.getName() + " = " + cookie.getValue());
-                }
+                System.out.println("cookies present in request:");
             } else {
                 System.out.println("No existing cookies found");
             }

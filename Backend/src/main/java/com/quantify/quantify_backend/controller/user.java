@@ -62,7 +62,7 @@ public class user {
     public ResponseEntity<Map<String, String>> updateBalance(@RequestBody Map<String, Object> request) {
         String userId = (String) request.get("userId");
         Object addingObj = request.get("add");
-
+        //fix this as double from object
         if (userId == null || userId.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("error", "User ID is required"));
         }
