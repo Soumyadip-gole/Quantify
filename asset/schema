@@ -1,0 +1,68 @@
+-- =================================================================================
+-- PostgreSQL Schema for the "Quantify" Project
+-- This SQL script is generated based on your original Java entity files.
+-- It creates all tables and then adds the relationships (foreign keys).
+-- =================================================================================
+
+-- Step 1: Create all the tables without relationships first.
+
+-- The 'balance' table holds the user's cash balance.
+CREATE TABLE balance (
+    balance_id VARCHAR(255) PRIMARY KEY,
+    balance INT NOT NULL
+);
+
+-- The 'user' table holds user login information and links to their balance.
+CREATE TABLE "usertable" (
+    user_id VARCHAR(255) PRIMARY KEY ,
+    google_id varchar(255) UNIQUE,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255),
+    email VARCHAR(255) NOT NULL UNIQUE,
+    balance_id VARCHAR(255) UNIQUE, -- A user has one balance. UNIQUE ensures this.
+    CONSTRAINT fk_user_balance FOREIGN KEY (balance_id) REFERENCES balance(balance_id)
+);
+
+-- The 'holding' table stores the stocks a user currently owns.
+CREATE TABLE holding (
+    holding_id VARCHAR(255) PRIMARY KEY,
+    symbol VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL,
+    average_price DOUBLE PRECISION NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_holding_user FOREIGN KEY (user_id) REFERENCES "user"(user_id)
+);
+
+-- The 'transaction' table keeps a record of all buy/sell activities.
+CREATE TABLE transaction (
+    transaction_id VARCHAR(255) PRIMARY KEY,
+    symbol VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL,
+    price DOUBLE PRECISION NOT NULL,
+    transaction_type VARCHAR(255) NOT NULL,
+    transaction_date VARCHAR(255) NOT NULL,
+    balance_id VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_transaction_balance FOREIGN KEY (balance_id) REFERENCES balance(balance_id)
+);
+
+-- The 'watchlist' table allows users to create named lists of stocks.
+CREATE TABLE watchlist (
+    watchlist_id VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_watchlist_user FOREIGN KEY (user_id) REFERENCES "user"(user_id)
+);
+
+-- The 'watchlist_items' table stores the individual stocks within a watchlist.
+CREATE TABLE watchlist_items (
+    item_id VARCHAR(255) PRIMARY KEY,
+    symbol VARCHAR(255) NOT NULL,
+    watchlist_id VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_watchlist_items_watchlist FOREIGN KEY (watchlist_id) REFERENCES watchlist(watchlist_id)
+);
+
+-- Note: In your 'balance' entity, you had a 'user' field with 'mappedBy'.
+-- In your 'user' entity, you had a 'balance' field with '@JoinColumn'.
+-- The '@JoinColumn' takes precedence and creates the 'balance_id' column in the "user" table.
+-- The SQL above correctly reflects how JPA would interpret your annotations.
+
