@@ -1,6 +1,7 @@
 package com.quantify.quantify_backend.controller;
 
 import com.quantify.quantify_backend.model.user;
+import com.quantify.quantify_backend.model.balance; // Import the balance model
 import com.quantify.quantify_backend.repository.user_repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,12 @@ public class auth { // Class names should be PascalCase
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setGoogleId(null); // Local registration, no Google ID
+
+        // Create default balance for new user
+        balance defaultBalance = new balance(0); // Start with 0 balance
+        defaultBalance.setUser(newUser);
+        newUser.setBalance(defaultBalance);
+
         userRepository.save(newUser);
 
         return ResponseEntity.ok(Map.of("message", "Registration successful"));
@@ -103,11 +110,21 @@ public class auth { // Class names should be PascalCase
                 return ResponseEntity.status(401).body(Map.of("error", "User not found"));
             }
 
+            // Safety check: Create balance if it doesn't exist for existing users
+            if (currentUser.getBalance() == null) {
+                balance defaultBalance = new balance(0);
+                defaultBalance.setUser(currentUser);
+                currentUser.setBalance(defaultBalance);
+                userRepository.save(currentUser);
+                System.out.println("Created missing balance for existing user: " + email);
+            }
+
             return ResponseEntity.ok(Map.of(
                 "message", "Login successful",
                 "username", currentUser.getUsername(),
                 "email", email,
                 "provider", "local",
+                "userId", currentUser.getUserId(),
                 "sessionId", session.getId() // Add session ID to response for debugging
             ));
 
@@ -147,16 +164,22 @@ public class auth { // Class names should be PascalCase
 
         if (oAuth2User != null) {
             String email = oAuth2User.getAttribute("email");
+            System.out.println("Looking for Google user with email: " + email);
+
             user currentUser = userRepository.findByEmail(email);
+            System.out.println("User found in database: " + (currentUser != null));
 
             if (currentUser == null) {
+                System.err.println("ERROR: Google user not found in database despite successful OAuth2 login!");
                 return ResponseEntity.status(401).body(Map.of("error", "User not found"));
             }
 
+            System.out.println("Returning Google user info for: " + email);
             return ResponseEntity.ok(Map.of(
                 "username", currentUser.getUsername(),
                 "email", email,
-                "provider", "google"
+                "provider", "google",
+                "userId", currentUser.getUserId()
             ));
 
         } else if (userDetails != null) {
@@ -170,7 +193,8 @@ public class auth { // Class names should be PascalCase
             return ResponseEntity.ok(Map.of(
                 "username", currentUser.getUsername(),
                 "email", email,
-                "provider", "local"
+                "provider", "local",
+                    "userId", currentUser.getUserId()
             ));
         }
 

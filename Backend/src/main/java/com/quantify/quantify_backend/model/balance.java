@@ -1,5 +1,6 @@
 package com.quantify.quantify_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class balance {
     private String balanceId;
 
     @Column(name="balance")
-    private double balance;
+    private double balance=0.0;
 
     @OneToOne(mappedBy = "balance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private user user;
@@ -36,12 +37,14 @@ public class balance {
         this.balance = balance;
     }
 
+    @JsonIgnore
     public user getUser() {
         return user;
     }
     public void setUser(user user) {
         this.user = user;
     }
+    @JsonIgnore
     public List<transaction> getTransactions() {
         return transactions;
     }

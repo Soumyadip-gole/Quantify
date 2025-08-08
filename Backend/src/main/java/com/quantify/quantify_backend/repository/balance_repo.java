@@ -17,5 +17,9 @@ public interface balance_repo extends JpaRepository<balance, String> {
 
     // Additional custom methods can be defined here if needed
 
-    balance findByUserId(String userId);
+    // Since balance is mapped by "balance" in user entity, 
+    // and user has @JoinColumn(name="balance_id") pointing to balance,
+    // we can't directly query balance by user_id. Instead we use a custom query or find by balance_id
+    // For now, remove this method and use findById with the balance_id from user entity
+    // balance findByUser_UserId(String userId);
 }

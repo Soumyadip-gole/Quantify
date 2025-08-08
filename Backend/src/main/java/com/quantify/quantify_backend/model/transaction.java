@@ -1,5 +1,6 @@
 package com.quantify.quantify_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -89,6 +90,7 @@ public class transaction {
         this.transactionDate = transactionDate;
     }
 
+    @JsonIgnore
     public balance getBalance() {
         return balance;
     }

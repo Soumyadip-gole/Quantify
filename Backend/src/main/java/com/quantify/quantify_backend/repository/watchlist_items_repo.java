@@ -17,6 +17,7 @@ public interface watchlist_items_repo extends JpaRepository<watchlist_items, Str
 
     // Additional custom methods can be defined here if needed
 
-    watchlist_items findByUserId(String userId);
+    // Fixed: parameter name should match what it actually represents
+    watchlist_items findByWatchlist_WatchlistId(String watchlistId);
     watchlist_items findBySymbol(String symbol);
 }

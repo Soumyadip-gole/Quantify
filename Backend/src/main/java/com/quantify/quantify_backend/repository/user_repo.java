@@ -20,5 +20,4 @@ public interface user_repo extends JpaRepository<user,String> {
     user findByEmail(String email);
     user findByGoogleId(String googleId);
     user findByUsername(String username);
-    user findByUserId(String userId);
 }

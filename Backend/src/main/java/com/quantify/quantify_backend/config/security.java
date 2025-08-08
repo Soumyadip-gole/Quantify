@@ -18,9 +18,11 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 public class security { // Class names should be PascalCase
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
-    public security(CustomUserDetailsService customUserDetailsService) {
+    public security(CustomUserDetailsService customUserDetailsService, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
         this.customUserDetailsService = customUserDetailsService;
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
     }
 
     @Bean
@@ -29,7 +31,8 @@ public class security { // Class names should be PascalCase
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for API endpoints
                 .authorizeHttpRequests(auth -> auth
                         // Permit access to static resources, auth endpoints, etc.
-                        .requestMatchers("/", "/auth/register", "/auth/login", "/auth/google-login", "/error","/auth/user").permitAll()
+                        // FIXED: Removed /auth/user from permitAll() - it should require authentication
+                        .requestMatchers("/", "/auth/register", "/auth/login", "/auth/google-login", "/error").permitAll()
                         // All other requests must be authenticated
                         .anyRequest().authenticated()
                 )
@@ -39,8 +42,9 @@ public class security { // Class names should be PascalCase
                         .maxSessionsPreventsLogin(false)
                 )
                 .oauth2Login(oauth -> oauth
-                        // OAuth2 config for Google login
-                        .defaultSuccessUrl("/auth/user", true)
+                        // OAuth2 config for Google login with custom success handler
+                        // FIXED: Remove defaultSuccessUrl as it conflicts with custom successHandler
+                        .successHandler(oAuth2LoginSuccessHandler)
                 )
                 .logout(l -> l
                         .logoutUrl("/auth/logout")
@@ -49,10 +53,7 @@ public class security { // Class names should be PascalCase
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
-
-                // Wire the user details service
-                .userDetailsService(customUserDetailsService)
-                .exceptionHandling(e -> e
+                .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 );
 
