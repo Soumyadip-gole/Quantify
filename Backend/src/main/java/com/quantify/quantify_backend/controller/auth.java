@@ -21,7 +21,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Map;
-import java.util.Optional;
+
+
+
+
 
 @RestController
 @RequestMapping("/auth")
@@ -83,15 +86,6 @@ public class auth { // Class names should be PascalCase
             // Force session to save immediately
             session.setAttribute("AUTHENTICATED_USER", email);
 
-            // Log session and cookie information for debugging
-            System.out.println("=== LOGIN DEBUG INFO ===");
-            System.out.println("Session ID: " + session.getId());
-            System.out.println("Session is new: " + session.isNew());
-            System.out.println("Max inactive interval: " + session.getMaxInactiveInterval());
-            System.out.println("Authentication principal: " + authentication.getName());
-            System.out.println("Authentication authorities: " + authentication.getAuthorities());
-            System.out.println("Security context stored: " + session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY));
-
             // Check if JSESSIONID cookie is being set
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
@@ -127,16 +121,10 @@ public class auth { // Class names should be PascalCase
                                                             @AuthenticationPrincipal OAuth2User oAuth2User,
                                                             @AuthenticationPrincipal UserDetails userDetails) {
 
-        // Debug information
-        System.out.println("=== /USER ENDPOINT DEBUG INFO ===");
-
         // Check session
         HttpSession session = request.getSession(false);
         if (session != null) {
-            System.out.println("Session ID: " + session.getId());
-            System.out.println("Session creation time: " + session.getCreationTime());
-            System.out.println("Session last accessed: " + session.getLastAccessedTime());
-            System.out.println("Security context in session: " + session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY));
+            System.out.println("session found with ID: " + session.getId());
         } else {
             System.out.println("No session found!");
         }
@@ -144,10 +132,7 @@ public class auth { // Class names should be PascalCase
         // Check cookies
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            System.out.println("Incoming cookies:");
-            for (Cookie cookie : cookies) {
-                System.out.println("  " + cookie.getName() + " = " + cookie.getValue());
-            }
+            System.out.println(" cookies present in request:");
         } else {
             System.out.println("No cookies found in request!");
         }
@@ -165,13 +150,7 @@ public class auth { // Class names should be PascalCase
             user currentUser = userRepository.findByEmail(email);
 
             if (currentUser == null) {
-                // Create new Google user
-                user newUser = new user();
-                newUser.setEmail(email);
-                newUser.setUsername(oAuth2User.getAttribute("name"));
-                newUser.setGoogleId(oAuth2User.getAttribute("sub"));
-                newUser.setPassword("");
-                currentUser = userRepository.save(newUser);
+                return ResponseEntity.status(401).body(Map.of("error", "User not found"));
             }
 
             return ResponseEntity.ok(Map.of(
