@@ -32,21 +32,5 @@ public class AlphaVantageConfig {
         AlphaVantage.api().init(cfg);
 
         System.out.println("✅ Alpha Vantage API Initialized Successfully!");
-
-//        AlphaVantage.api()
-//                .timeSeries()
-//                .intraday()
-//                .forSymbol("IBM")
-//                .interval(Interval.FIVE_MIN)
-//                .outputSize(OutputSize.FULL)
-//                .onSuccess(e->handleSuccess(e))
-//                .onFailure(e->handleFailure(e))
-//                .fetch();
     }
-//    public void handleSuccess(Object response) {
-//        System.out.println ("Success! " + response + " data fetched successfully.");
-//    }
-//    public void handleFailure(AlphaVantageException error) {
-//        System.out.println ("Error! " + error.getMessage() + " occurred while fetching data.");
-//    }
 }

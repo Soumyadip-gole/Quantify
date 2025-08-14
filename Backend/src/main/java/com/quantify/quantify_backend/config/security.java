@@ -32,6 +32,7 @@ public class security { // Class names should be PascalCase
                 .authorizeHttpRequests(auth -> auth
                         // Permit access to static resources, auth endpoints, etc.
                         // FIXED: Removed /auth/user from permitAll() - it should require authentication
+                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/", "/auth/register", "/auth/login", "/auth/google-login", "/error").permitAll()
                         // All other requests must be authenticated
                         .anyRequest().authenticated()
