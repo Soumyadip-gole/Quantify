@@ -2,6 +2,7 @@ package com.quantify.quantify_backend.model;
 
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="watchlist_items")
@@ -17,6 +18,7 @@ public class watchlist_items {
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name="watchlist_id")
+    @JsonBackReference
     private watchlist watchlist;
 
     public watchlist getWatchlist() {

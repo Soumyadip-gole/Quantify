@@ -1,0 +1,17 @@
+/* Enable Tailwind (v4) */
+@import "tailwindcss";
+
+/* Set base styles */
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background-color: #010409;
+  color: #f0f6fc;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
