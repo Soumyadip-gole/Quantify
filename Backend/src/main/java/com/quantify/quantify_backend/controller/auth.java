@@ -23,10 +23,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 
-
-
-
-
 @RestController
 @RequestMapping("/auth")
 public class auth {
@@ -87,7 +83,7 @@ public class auth {
             // Check if JSESSIONID cookie is being set
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
-                System.out.println("cookies present in request:");
+                System.out.println("cookies present in request");
             } else {
                 System.out.println("No existing cookies found");
             }

@@ -12,6 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import java.time.Duration;
+import java.util.List;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -28,11 +34,12 @@ public class security { // Class names should be PascalCase
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // allow all origins/headers/methods
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for API endpoints
                 .authorizeHttpRequests(auth -> auth
                         // Permit access to static resources, auth endpoints, etc.
                         // FIXED: Removed /auth/user from permitAll() - it should require authentication
-                        .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/**").permitAll()
                         .requestMatchers("/", "/auth/register", "/auth/login", "/auth/google-login", "/error").permitAll()
                         // All other requests must be authenticated
                         .anyRequest().authenticated()
@@ -59,6 +66,23 @@ public class security { // Class names should be PascalCase
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        // If you need cookies/Authorization headers across origins:
+        config.setAllowCredentials(true);
+        // Use patterns when allowCredentials is true
+        config.setAllowedOriginPatterns(List.of("*")); // allow all origins
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // allow all common methods
+        config.setAllowedHeaders(List.of("*"));   // allow all headers
+        config.setExposedHeaders(List.of("*"));   // expose all headers (optional)
+        config.setMaxAge(Duration.ofHours(1));    // cache preflight
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     @Bean

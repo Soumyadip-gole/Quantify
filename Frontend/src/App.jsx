@@ -1,19 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Search, Menu, X, ArrowRight } from 'react-feather';
+import React, { useEffect } from 'react';
 import logo from './assets/logo.png';
 
-const NavLinks = ({ className }) => (
-  <nav className={className}>
-    <a href="#features" className="hover:text-brand-gold transition-colors">Features</a>
-    <a href="#solution" className="hover:text-brand-gold transition-colors">Solution</a>
-    <a href="#pricing" className="hover:text-brand-gold transition-colors">Pricing</a>
-    <a href="#about" className="hover:text-brand-gold transition-colors">About</a>
-  </nav>
-);
-
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   useEffect(() => {
     const link = document.querySelector("link[rel='icon']") || document.createElement('link');
     link.rel = 'icon';
@@ -21,6 +9,11 @@ function App() {
     link.href = logo;
     if (!link.parentNode) document.head.appendChild(link);
   }, []);
+
+  const handleExploreClick = () => {
+    // Navigate to home page when Explore Now is clicked
+    window.location.href = '/home';
+  };
 
   return (
     <div className="bg-brand-dark text-brand-light font-sans">
@@ -56,36 +49,15 @@ function App() {
           />
         </div>
 
-        {/* Header */}
+        {/* Minimal Header for Landing Page */}
         <header className="relative z-20 backdrop-blur-sm bg-brand-dark/80">
           <div className="container mx-auto px-6 py-5 flex justify-between items-center">
             <div className="flex items-center gap-3">
               <img src={logo} alt="Quantify logo" className="h-8 w-8 object-contain" />
               <span className="text-xl font-bold tracking-wider">QUANTIFY</span>
             </div>
-            <NavLinks className="hidden lg:flex items-center gap-8 text-sm text-brand-gray" />
-            <div className="hidden lg:flex items-center gap-4">
-              <button className="text-sm text-brand-gray hover:text-brand-light transition-colors">Sign In</button>
-              <button className="rounded-md bg-brand-gold px-4 py-2 text-sm font-bold text-brand-dark shadow-sm hover:brightness-110 transition">Get Started</button>
-            </div>
-            <button className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X className="text-brand-gray" /> : <Menu className="text-brand-gray" />}
-            </button>
           </div>
         </header>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden absolute top-20 left-0 right-0 bg-brand-dark/95 backdrop-blur-sm z-10">
-            <div className="container mx-auto px-6 py-8 flex flex-col items-center gap-6">
-              <NavLinks className="flex flex-col items-center gap-6 text-brand-gray" />
-              <div className="flex flex-col items-center gap-4 w-full pt-6 border-t border-brand-gray/20">
-                <button className="text-sm text-brand-gray hover:text-brand-light transition-colors w-full">Sign In</button>
-                <button className="rounded-md bg-brand-gold px-4 py-2 text-sm font-bold text-brand-dark shadow-sm hover:brightness-110 transition w-full">Get Started</button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Hero Section */}
         <main className="relative z-10 min-h-screen flex items-center">
@@ -104,7 +76,10 @@ function App() {
               {/* CTA Section */}
               <div className="space-y-6">
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="relative inline-flex items-center justify-center gap-3 rounded-xl border-2 border-brand-gold bg-brand-gold/20 px-10 py-5 text-brand-gold font-bold text-xl shadow-lg shadow-brand-gold/50 hover:shadow-xl hover:shadow-brand-gold/70 hover:bg-brand-gold/30 hover:border-brand-gold hover:scale-105 hover:text-yellow-100 transition-all duration-300 group backdrop-blur-sm overflow-hidden">
+                  <button
+                    onClick={handleExploreClick}
+                    className="relative inline-flex items-center justify-center gap-3 rounded-xl border-2 border-brand-gold bg-brand-gold/20 px-10 py-5 text-brand-gold font-bold text-xl shadow-lg shadow-brand-gold/50 hover:shadow-xl hover:shadow-brand-gold/70 hover:bg-brand-gold/30 hover:border-brand-gold hover:scale-105 hover:text-yellow-100 transition-all duration-300 group backdrop-blur-sm overflow-hidden"
+                  >
                     <span className="relative z-10 drop-shadow-lg">Explore Now</span>
 
                     {/* Bright golden shine effect */}
@@ -127,7 +102,6 @@ function App() {
                   src={logo}
                   alt="Quantify"
                   className="w-96 h-96 object-contain opacity-25"
-                  style={{ animation: 'spin 30s linear infinite' }}
                 />
               </div>
             </div>
@@ -136,7 +110,7 @@ function App() {
       </div>
 
       {/* CSS Animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-20px); }

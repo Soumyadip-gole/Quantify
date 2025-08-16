@@ -2,6 +2,7 @@ package com.quantify.quantify_backend.controller;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
 import com.crazzyghost.alphavantage.AlphaVantageException;
+import com.crazzyghost.alphavantage.parameters.Interval;
 import com.crazzyghost.alphavantage.parameters.OutputSize;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,17 @@ public class marketData { // Renamed class to follow Java conventions
         try {
             // The AlphaVantage library calls are asynchronous, which is handled correctly here.
             switch (interval.toLowerCase()) { // Use toLowerCase for case-insensitivity
+                case "intraday":
+                    AlphaVantage.api()
+                            .timeSeries()
+                            .intraday()
+                            .forSymbol(symbol)
+                            .interval(Interval.THIRTY_MIN) // Default to 1 minute interval
+                            .outputSize(OutputSize.COMPACT) // COMPACT is better for recent data, FULL for history
+                            .onSuccess(response -> future.complete(ResponseEntity.ok(createSuccessResponse(symbol, interval, response))))
+                            .onFailure(error -> future.complete(createFailureResponse(error)))
+                            .fetch();
+                    break;
                 case "weekly":
                     AlphaVantage.api()
                             .timeSeries()
@@ -125,6 +137,8 @@ public class marketData { // Renamed class to follow Java conventions
             Map.of("symbol", "^NSEI", "name", "NIFTY 50", "region", "India"),
             Map.of("symbol", "^BSESN", "name", "BSE SENSEX", "region", "India"),
             Map.of("symbol", "^NSEBANK", "name", "NIFTY Bank", "region", "India"),
+            Map.of("symbol", "^CNXIT", "name", "NIFTY IT", "region", "India"),
+            Map.of("symbol", "^CNXPHARMA", "name", "NIFTY Pharma", "region", "India"),
 
             // US Indices
             Map.of("symbol", "^GSPC", "name", "S&P 500", "region", "USA"),
@@ -146,10 +160,9 @@ public class marketData { // Renamed class to follow Java conventions
             Map.of("symbol", "^KS11", "name", "KOSPI Composite Index", "region", "South Korea"),
             Map.of("symbol", "^TWII", "name", "TSEC weighted index", "region", "Taiwan"),
             Map.of("symbol", "^AXJO", "name", "S&P/ASX 200", "region", "Australia"),
-
-            // Other Global Indices
-            Map.of("symbol", "^GSPTSE", "name", "S&P/TSX Composite index", "region", "Canada"),
-            Map.of("symbol", "^BVSP", "name", "IBOVESPA", "region", "Brazil")
+            Map.of("symbol", "^NZ50", "name", "S&P/NZX 50 Index", "region", "New Zealand"),
+            Map.of("symbol", "^JKSE", "name", "Jakarta Composite Index", "region", "Indonesia"),
+            Map.of("symbol", "^STI", "name", "Straits Times Index", "region", "Singapore")
     );
 
     private final WebClient webClient = WebClient.builder().build();

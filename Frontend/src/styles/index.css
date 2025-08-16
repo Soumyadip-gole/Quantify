@@ -1,0 +1,10 @@
+/* Tailwind (v4) base */
+@import "tailwindcss";
+
+/* Base layout */
+html, body, #root { height: 100%; }
+body { margin: 0; background-color: #010409; color: #f0f6fc; font-family: 'Inter', sans-serif; }
+
+/* Simple utility tweaks if needed */
+.container { max-width: 1100px; }
+

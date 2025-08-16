@@ -1,10 +1,19 @@
 /* Enable Tailwind (v4) */
 @import "tailwindcss";
 
+/* Global box-sizing */
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
 /* Set base styles */
 html, body, #root {
   height: 100%;
-  overflow: hidden;
+}
+
+/* Allow vertical scrolling, hide horizontal overflow */
+html, body {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
