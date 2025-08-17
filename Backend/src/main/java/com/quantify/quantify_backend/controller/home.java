@@ -19,8 +19,7 @@ public class home {
     public String home(@AuthenticationPrincipal OAuth2User user) {
         if (user != null)
             return "Welcome back, " + user.getAttribute("name") + "! You are logged in. <a href=\"/auth/logout\">Logout</a><a href=\"/auth/user\">user</a>";
-
-        return "Welcome to Quantify! <a href=\"/google-login\">Login with Google</a><a href=\"/auth/user\">user</a>";
+        return "Welcome to Quantify! <a href=\"/auth/google-login\">Login with Google</a><a href=\"/auth/user\">user</a>";
     }
 
 }
