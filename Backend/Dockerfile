@@ -24,5 +24,4 @@ EXPOSE 8080
 # Optional JVM opts
 ENV JAVA_OPTS=""
 
-# Start app
-ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
