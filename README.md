@@ -3,6 +3,11 @@
 
 Quantify is a full-featured, data-driven trading and investment platform built with a modern, enterprise-grade technology stack...
 
+## 🚀 Live Backend
+
+- Live Backend: https://quantify-mwks.onrender.com
+- API Documentation (Swagger UI): https://quantify-mwks.onrender.com/swagger-ui/index.html
+
 ## ✨ Key Features
 
 * **Secure User Authentication:** Supports email/password (JWT) and Google (OAuth 2.0).
