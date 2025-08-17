@@ -61,7 +61,7 @@ This README includes setup instructions, architecture overview, configuration gu
 - Real-time data stream
   - WebSocket endpoint (/ws/trades) using STOMP to bridge Finnhub live trade feed
 - AI insights
-  - Gemini-powered company insights endpoint (deployed)
+  - Gemini-powered company insights endpoint
 
 ### Coming Next
 - Frontend (React)
