@@ -1,7 +1,7 @@
 # Quantify — A Modern Trading & Investment Platform 📈
 _Last updated: August 17, 2025_
 
-Quantify is a real-time market data and portfolio tracking platform designed to keep investors effortlessly informed. It provides secure user management, portfolio/watchlist APIs, real-time trade feed...
+Quantify is a real-time market data and portfolio tracking platform designed to keep investors effortlessly informed. It provides secure user management, portfolio/watchlist APIs, real-time trade feeds, and AI-powered company insights. The backend is live and ready for frontend integration, with a roadmap toward asynchronous paper trading, Redis caching, and advanced analytics.
 
 - Live API Base URL: https://quantify-mwks.onrender.com
 - API Documentation (Swagger UI): https://quantify-mwks.onrender.com/swagger-ui/index.html
@@ -122,8 +122,8 @@ The application uses a normalized PostgreSQL schema to manage user, portfolio, w
 
 ### 1) Clone the Repository
 ```bash
-git clone https://github.com/your-repo/quantify.git
-cd quantify
+git clone https://github.com/Soumyadip-gole/Quantify.git
+cd Quantify
 ```
 
 ### 2) Configure Environment
@@ -304,7 +304,6 @@ Backend foundation is solid and deployed. The following tasks track remaining wo
   - [ ] GitHub Actions workflow to build/test on push
 
 ### Phase 3: Advanced Features & AI
-- [x] AI Company Insights endpoint (Gemini)
 - [ ] Backtesting Engine
 - [ ] Monitoring/Observability (metrics, tracing, dashboards)
 - [ ] Future: Python microservice for stock ratings and news sentiment analysis
@@ -322,15 +321,14 @@ Contributions are welcome! Please:
 
 ## 11) Security
 
-- Do not commit secrets. Use environment variables or local `application.properties`
-- Rotate API keys periodically
+- Using env variables to pass secrets into `application.properties`
 - Report vulnerabilities privately via issue assignment or direct contact
 
 ---
 
 ## 12) License
 
-This project’s license will be specified in `LICENSE` (to be added if not present).
+This project is licensed under the MIT License - see the `LICENSE` file for details.
 
 ---
 
