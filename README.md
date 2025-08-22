@@ -1,4 +1,4 @@
-# Quantify — Real Time Market Data & Insights Platform 📈
+# Quantify — Real Time Market Data & Insights Platform
 
 Quantify is a real-time market data and portfolio tracking platform designed to keep investors effortlessly informed. It provides secure user management, portfolio/watchlist APIs, real-time trade feeds, and AI-powered company insights. The backend is live and ready for frontend integration, with a roadmap toward asynchronous paper trading, Redis caching, and advanced analytics.
 
